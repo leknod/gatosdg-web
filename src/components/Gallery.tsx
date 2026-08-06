@@ -54,7 +54,7 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
               key={photo.key}
               src={photo.thumbUrl}
               alt=""
-              className="w-full rounded-lg"
+              className="w-full rounded-lg cursor-pointer"
               role="button"
               tabIndex={0}
               onClick={() => openLightbox(index)}
@@ -74,7 +74,7 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
               key={photo.key}
               src={photo.thumbUrl}
               alt=""
-              className="w-full rounded-lg"
+              className="w-full rounded-lg cursor-pointer"
               role="button"
               tabIndex={0}
               onClick={() => openLightbox(index)}
