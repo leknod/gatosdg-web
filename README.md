@@ -4,7 +4,7 @@
 
 ![GatosDG](./preview.jpeg)
 
-**A cozy family website dedicated to our cats, featuring individual profiles, photo galleries, and memories built with Next.js and Tailwind CSS.**
+**A cozy family website dedicated to our cats, featuring individual profiles, photo galleries, and memories.**
 
 [Live demo](https://gatosdg.vercel.app/)
 
