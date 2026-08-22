@@ -12,10 +12,11 @@ type CatWithCover = Cat & {
 };
 
 export default async function Home() {
-  const { data: cats } = await supabase
+  const { data: cats, error: catsError } = await supabase
     .from("cats")
     .select("name, slug")
     .order("sort_order", { ascending: true });
+  console.log("[page.tsx] cats:", cats, "| error:", catsError);
 
   const catsWithCovers: CatWithCover[] = await Promise.all(
     (cats ?? []).map(async (cat: Cat) => {
