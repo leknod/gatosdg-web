@@ -29,13 +29,13 @@ The project focuses on clean design, fast performance, and an enjoyable browsing
 - Image storage using Cloudflare R2.
 - Responsive design for desktop, tablet and mobile.
 - SEO-friendly metadata.
-- Public read-only database powered by Supabase.
+- Serverless Postgres database powered by Neon.
 
 ## 🛠️ Built With
 
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Supabase](https://supabase.com/)
+- [Neon](https://neon.tech/)
 - [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 - [Yet Another React Lightbox](https://yet-another-react-lightbox.com/)
 - [Vercel](https://vercel.com/)
@@ -65,7 +65,7 @@ npm run dev
 
 Open **http://localhost:3000** in your browser.
 
-> This project depends on private Supabase and Cloudflare resources that are not included in the repository.
+> This project depends on private Neon and Cloudflare resources that are not included in the repository.
 
 ---
 

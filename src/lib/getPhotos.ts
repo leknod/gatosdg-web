@@ -31,7 +31,7 @@ export async function getPhotos(slug: string): Promise<Photo[]> {
 
   return originals.map((file) => {
     const key = file.Key!;
-    
+
     // Obtener la clave esperada para su miniatura reemplazando la extensión por _thumb.webp
     const lastDotIndex = key.lastIndexOf(".");
     const baseKey = lastDotIndex !== -1 ? key.substring(0, lastDotIndex) : key;

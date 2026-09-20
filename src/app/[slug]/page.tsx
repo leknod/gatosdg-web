@@ -1,11 +1,12 @@
 import Gallery from "@/components/Gallery";
-import { supabase } from "@/lib/supabase";
+import { sql, type CatDetail } from "@/lib/db";
 import { getPhotos } from "@/lib/getPhotos";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { MapPin, Cake, CalendarRange } from "lucide-react";
 
-function calcAge(birthdate: string) {
+function calcAge(birthdate: string | null) {
+  if (!birthdate) return "";
   const birth = new Date(birthdate);
   const now = new Date();
   const years = now.getFullYear() - birth.getFullYear();
@@ -21,11 +22,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  const { data: cat } = await supabase
-    .from("cats")
-    .select("name")
-    .eq("slug", slug)
-    .single();
+  const [cat] = (await sql`
+    SELECT name FROM cats WHERE slug = ${slug} LIMIT 1
+  `) as { name: string }[];
 
   if (!cat) {
     return {
@@ -53,8 +52,10 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const { data: cats } = await supabase.from("cats").select("slug");
-  return cats?.map((cat: { slug: string }) => ({ slug: cat.slug })) ?? [];
+  const cats = (await sql`
+    SELECT slug FROM cats
+  `) as { slug: string }[];
+  return cats.map((cat) => ({ slug: cat.slug }));
 }
 
 export default async function Page({
@@ -69,13 +70,28 @@ export default async function Page({
   const coverPhoto = photos[0] ?? null;
   const galleryPhotos = photos.slice(1);
 
-  const { data: cat, error } = await supabase
-    .from("cats")
-    .select("*, nicknames(nickname)")
-    .eq("slug", slug)
-    .single();
+  const [cat] = (await sql`
+    SELECT 
+      c.id, 
+      c.name, 
+      c.slug, 
+      c.description, 
+      c.birthdate::text as birthdate, 
+      c.departure_date::text as departure_date, 
+      c.location, 
+      c.sort_order, 
+      c.is_current, 
+      COALESCE(
+        json_agg(json_build_object('nickname', n.nickname)) FILTER (WHERE n.nickname IS NOT NULL), 
+        '[]'::json
+      ) AS nicknames 
+    FROM cats c 
+    LEFT JOIN nicknames n ON c.id = n.cat_id 
+    WHERE c.slug = ${slug} 
+    GROUP BY c.id
+  `) as CatDetail[];
 
-  if (!cat || error) notFound();
+  if (!cat) notFound();
   return (
     <main className="min-h-[calc(100vh-57px)] flex flex-col items-center">
       {/* Container - stacked on mobile/tablet, two-column grid on desktop (lg:) */}
@@ -137,8 +153,8 @@ export default async function Page({
                   <>
                     <CalendarRange className="w-4 h-4 text-primary-100" />
                     <span>
-                      {cat.birthdate.slice(0, 4)} –{" "}
-                      {cat.departure_date.slice(0, 4)}
+                      {cat.birthdate?.slice(0, 4)} –{" "}
+                      {cat.departure_date?.slice(0, 4) ?? ""}
                     </span>
                   </>
                 )}

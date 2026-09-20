@@ -1,25 +1,18 @@
-import { supabase } from "@/lib/supabase";
+import { sql, type CatSummary } from "@/lib/db";
 import { getCoverPhoto } from "@/lib/getPhotos";
 import Link from "next/link";
 
-type Cat = {
-  name: string;
-  slug: string;
-};
-
-type CatWithCover = Cat & {
+type CatWithCover = CatSummary & {
   coverUrl: string | null;
 };
 
 export default async function Home() {
-  const { data: cats, error: catsError } = await supabase
-    .from("cats")
-    .select("name, slug")
-    .order("sort_order", { ascending: true });
-  console.log("[page.tsx] cats:", cats, "| error:", catsError);
+  const cats = (await sql`
+    SELECT name, slug FROM cats ORDER BY sort_order ASC
+  `) as CatSummary[];
 
   const catsWithCovers: CatWithCover[] = await Promise.all(
-    (cats ?? []).map(async (cat: Cat) => {
+    cats.map(async (cat) => {
       const cover = await getCoverPhoto(cat.slug);
       return { ...cat, coverUrl: cover?.url ?? null };
     }),
