@@ -22,7 +22,6 @@ export default function RevealOnScroll({
           observer.disconnect();
         }
       },
-      { threshold: 0 },
     );
 
     observer.observe(el);
