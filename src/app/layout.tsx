@@ -2,6 +2,7 @@ import "./globals.css";
 import { plusJakartaSans } from "@/lib/fonts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -39,9 +40,11 @@ export default function RootLayout({
   return (
     <html lang="es" className="scrollbar-gutter-stable">
       <body className={`${plusJakartaSans.className} bg-surface-900`}>
-        <Header />
-        {children}
-        <Footer />
+        <SmoothScroll>
+          <Header />
+          {children}
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );
