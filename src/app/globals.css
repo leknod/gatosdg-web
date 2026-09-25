@@ -10,8 +10,7 @@
   --color-surface-700: #26211a;
   --color-surface-600: #282115;
 
-  --animate-slide-down: animate-slide-down 0.5s cubic-bezier(0.16, 1, 0.3, 1)
-    both;
+  --animate-slide-down: animate-slide-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes animate-slide-down {

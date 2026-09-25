@@ -28,6 +28,7 @@ The project focuses on clean design, fast performance, and an enjoyable browsing
 - Support for current and former family cats.
 - Image storage using Cloudflare R2.
 - Responsive design for desktop, tablet and mobile.
+- Smooth scrolling experience powered by Lenis.
 - SEO-friendly metadata.
 - Serverless Postgres database powered by Neon.
 
@@ -38,6 +39,7 @@ The project focuses on clean design, fast performance, and an enjoyable browsing
 - [Neon](https://neon.tech/)
 - [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 - [Yet Another React Lightbox](https://yet-another-react-lightbox.com/)
+- [Lenis](https://lenis.dev/)
 - [Vercel](https://vercel.com/)
 
 ## ⚡ Quick Start
@@ -57,7 +59,13 @@ cd gatosdg
 npm install
 ```
 
-### 3. Start the development server
+### 3. Copy `.env.example` to `.env.local` and configure the required variables:
+
+```bash
+cp .env.example .env.local
+```
+
+### 4. Start the development server
 
 ```bash
 npm run dev
